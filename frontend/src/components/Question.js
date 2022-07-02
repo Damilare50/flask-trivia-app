@@ -15,14 +15,15 @@ class Question extends Component {
 
   render() {
     const { question, answer, category, difficulty } = this.props;
+    const img = category.length > 0 ? category[0].type.toLowerCase() : 'undefined';
     return (
       <div className='Question-holder'>
         <div className='Question'>{question}</div>
         <div className='Question-status'>
           <img
             className='category'
-            alt={`${category.toLowerCase()}`}
-            src={`${category.toLowerCase()}.svg`}
+            alt={`${img}`}
+            src={`${img}.svg`}
           />
           <div className='difficulty'>Difficulty: {difficulty}</div>
           <img
