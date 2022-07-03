@@ -77,13 +77,19 @@ The main data returned for both success and failed responses are in the `data` o
 }
 ```
 
-### Endpoints
+## Documenting your Endpoints
 
-**/categories** [GET]
+You will need to provide detailed documentation of your API endpoints including the URL, request parameters, and the response body. Use the example below as a reference.
 
-Sample Response:
+### Documentation Example
 
-```JSON
+`GET '/categories'`
+
+- Fetches a dictionary of categories and other params.
+- Request Arguments: None
+- Returns: An object with keys; `categories`, that contains an array of objects of `id: category_string` key: value pairs,; `success`, with a value of `true` and a `total` number of categories.
+
+```json
 {
   "categories": [
     {
@@ -116,15 +122,14 @@ Sample Response:
 }
 ```
 
----
 
-**/questions?page=1** [GET]
+`GET '/questions?page=1'`
 
-_NOTE: Only 10 questions are returned per page_
+- Fetches a dictionary of questions and other parameters.
+- Request Arguments: page
+- Returns: An object with a keys: `categories`, that contains an array of objects of `id: category_string` key: value pairs; `questions`, that contains an array of different questions; `total_questions`, that contains the total number of questions returned; `success`, with a value of `'true'`.
 
-Sample Response:
-
-```JSON
+```json
 {
   "current_category": "All",
   "categories": [
@@ -149,9 +154,12 @@ Sample Response:
 }
 ```
 
-**/questions/\<int:question_id\>** Request Type: [DELETE]
 
-Sample Response:
+`DELETE '/questions/<int:question_id>'`
+
+- Deletes a question
+- Request Arguments: `'id'` of question to be deleted.
+- Returns: An object with a single key, `success`, with a value of `true`.
 
 ```JSON
 {
@@ -159,13 +167,13 @@ Sample Response:
 }
 ```
 
----
 
-**/questions** Request Type: [POST]
+`POST '/questions'`
 
-Data: `{"search": "won"}`
-
-Sample Response:
+- Sends a request that searches for a question.
+- Request Arguments: None
+- Request Body: An object that contains the value of the search parameter eg. `{"search": "won"}`
+- Returns: An object with keys: `questions`, that contains an array of questions that match the search parameter; `success`, with a value of `true` and `total_questions` with the total number of questions returned.
 
 ```JSON
 {
@@ -183,11 +191,12 @@ Sample Response:
 }
 ```
 
----
 
-**/category/\<int:category_id\>/questions** Request Type: [GET]
+`GET '/category/<int:category_id>/questions'`
 
-Sample Response:
+- Fetches all questions that belongs to the specified category.
+- Request Arguments: category `id`
+- Returns: An object with keys, `questions`, that contains an array of questions; `current_category`, that contains the current category; `success`, with a value of 'true', `total_questions`, with the number of questions returned.
 
 ```JSON
 {
@@ -213,15 +222,15 @@ Sample Response:
 }
 ```
 
----
 
-**/quiz/question** Request Type: [POST]
+`POST '/quiz/question'`
 
-Data: `{"category": 1, "previous_questions": [23]}`
+- Fetches a random next question.
+- Request Arguments: None
+- Request Body: An object with keys: `category` and `previous_questions` e.g. `{"category": 1, "previous_questions": [23]}` 
+- Returns: An object with keys: `question`, that contains a question(as an object); `success`, with a value of 'true'.
 
-Sample Response:
-
-```json
+```JSON
 {
   "question": {
     "answer": "The Liver",

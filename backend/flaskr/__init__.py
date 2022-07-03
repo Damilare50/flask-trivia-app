@@ -149,13 +149,13 @@ def create_app(test_config=None):
     @app.route('/questions', methods=['POST'])
     def search_questions():
         data = request.get_json()
-        search_term = data.get('search_term')
+        search_term = data.get('searchTerm')
 
-        if 'search_term' in data:
+        if search_term:
             questions = Question.query.filter(Question.question.ilike(f'%{search_term}%')).all()
             result = [question.format() for question in questions]
         else:
-            return abort(422)
+            return abort(400)
 
         return jsonify({
             'success': True,
@@ -208,14 +208,14 @@ def create_app(test_config=None):
         if data['quiz_category'] == 0:
             question = Question.query.join(Category, Question.category == Category.id)\
             .filter(ColumnOperators.notin_(Question.id, data['previous_questions']))\
-            .order_by(func.random()).one_or_none()
+            .order_by(func.random()).first()
         else:
             question = Question.query.join(Category, Question.category == Category.id)\
             .filter(and_(Category.id == data['quiz_category'], ColumnOperators.notin_(Question.id, data['previous_questions'])))\
-            .order_by(func.random()).one_or_none()
+            .order_by(func.random()).first()
 
         if question is None:
-            return abort(404)
+            return jsonify({ 'question': False })
         
         return jsonify({
             'success': True,

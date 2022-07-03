@@ -99,18 +99,18 @@ class TriviaTestCase(unittest.TestCase):
 
     # Search for a question
     def test_search_question_with_result(self):
-        res = self.client().post('/questions', json = {'search_term': 'title'})
+        res = self.client().post('/questions', json = {'searchTerm': 'clay'})
         data = json.loads(res.data)
 
         self.assertEqual(res.status_code, 200)
         self.assertTrue(data['success'])
-        self.assertEqual(data['total_questions'], 2)
+        self.assertEqual(data['total_questions'], 1)
 
     def test_search_question_without_result(self):
         res = self.client().post('/questions')
         data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 422)
+        self.assertEqual(res.status_code, 400)
         self.assertEqual(data['success'], False)
 
     def test_get_questions_from_category(self):
@@ -129,11 +129,10 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(res.status_code, 404)
 
     def test_next_question(self):
-        res = self.client().post('/quiz/question', json = {'quiz_category': 0, 'previous_questions': []})
+        res = self.client().post('/quiz/question', json = {'quiz_category': 1, 'previous_questions': []})
         data = json.loads(res.data)
 
         self.assertEqual(data['success'], True)
-        self.assertGreater(data['question'], 0)
 
     def test_next_question_with_invalid_method(self):
         res = self.client().get('/quiz/question')
